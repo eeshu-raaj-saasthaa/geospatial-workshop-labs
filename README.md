@@ -48,7 +48,7 @@ Run the following command in the terminal. This will download the entire `geospa
 
 ```bash
 git clone [https://github.com/eeshu-raaj-saasthaa/geospatial-workshop-labs.git](https://github.com/eeshu-raaj-saasthaa/geospatial-workshop-labs.git)
-
+```
 ### 3. Navigate to the Lab 1 Folder
 
 Once the download is complete, change into the `lab1` directory using this command:
@@ -56,7 +56,7 @@ Once the download is complete, change into the `lab1` directory using this comma
 **Bash**
 ```bash
 cd geospatial-workshop-labs/lab1
-
+```
 ### 4. Create the Conda Environment
 The `lab1` folder contains an `azureml_environment.yml` file. Use it to create the Python environment with all the necessary geospatial packages.
 
@@ -65,7 +65,7 @@ This step is crucial and will take 5-10 minutes to complete.
 **Bash**
 ```bash
 conda env create -f azureml_environment.yml
-
+```
 ### 5. Start the Lab!
 
 After the environment is created, go to the **Notebooks** tab in Azure ML Studio.
