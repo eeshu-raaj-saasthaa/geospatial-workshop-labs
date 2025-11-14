@@ -1,0 +1,21 @@
+name: geo-labs-azureml
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - geopandas
+  - rioxarray
+  - matplotlib
+  - folium
+  - shapely
+  - pyproj
+  - scikit-learn
+  - planetary-computer
+  - jupyterlab
+  - ipykernel
+  - pystac-client
+  - stackstac
+  - mapclassify
+  - contextily
+  - ipywidgets>=8.0.0
+  - dask
