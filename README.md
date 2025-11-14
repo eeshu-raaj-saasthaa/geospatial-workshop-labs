@@ -8,9 +8,11 @@ Welcome! This repository contains all the materials, notebooks, and instructions
 * **Topic:** Calculating NDVI using Sentinel-2 imagery.
 * **Tools:** Azure ML, GeoPandas, Planetary Computer.
 * **Status:** ✅ Ready
-### [Lab 2: Advanced Analysis](./lab2)
-* **Topic:** (TBD)
-* **Status:** 🚧 Coming Soon
+
+### [Lab 2: Geospatial AI for Flood Mapping](./lab2)
+* **Description:** Learn to use a quantized geospatial foundation model (Prithvi-EO-1.0) to perform flood segmentation. This lab runs entirely on a CPU using AI inference.
+* **Tools:** Azure ML, PyTorch, TerraTorch, Hugging Face, Planetary Computer.
+* **Status:** ✅ **Ready**
 
 ---
 
@@ -40,8 +42,6 @@ You will run these commands in the Azure ML Terminal to download the lab files a
 2.  On the left-hand menu, click **Compute**.
 3.  Find your running Compute Instance and click **Terminal**.
 
-
-
 ### 2. Clone the Workshop Repository
 
 Run the following command in the terminal. This will download the entire `geospatial-workshop-labs` folder (containing `lab1` and `lab2`) into your user directory.
@@ -49,29 +49,3 @@ Run the following command in the terminal. This will download the entire `geospa
 ```bash
 git clone [https://github.com/eeshu-raaj-saasthaa/geospatial-workshop-labs.git](https://github.com/eeshu-raaj-saasthaa/geospatial-workshop-labs.git)
 ```
-### 3. Navigate to the Lab 1 Folder
-
-Once the download is complete, change into the `lab1` directory using this command:
-
-**Bash**
-```bash
-cd geospatial-workshop-labs/lab1
-```
-### 4. Create the Conda Environment
-The `lab1` folder contains an `azureml_environment.yml` file. Use it to create the Python environment with all the necessary geospatial packages.
-
-This step is crucial and will take 5-10 minutes to complete.
-
-**Bash**
-```bash
-conda env create -f azureml_environment.yml
-```
-### 5. Start the Lab!
-
-After the environment is created, go to the **Notebooks** tab in Azure ML Studio.
-
-1.  Navigate into `geospatial-workshop-labs` > `lab1`.
-2.  Open the `Lab_1_GeoSpatial_Analysis.ipynb` notebook.
-3.  In the top-right corner, click the kernel name and select the new environment you just created (it will be named `geo-labs-azureml`).
-
-You are now ready to begin the lab!
