@@ -8,7 +8,7 @@ Follow the steps below to create and activate the lab environment.
 ### 1. Navigate to the Lab 2 Folder
 Once the download is complete, change into the lab1 directory using this command:
 
-bash```
+```bash
 cd geospatial-workshop-labs/lab2
 ```
 ---
