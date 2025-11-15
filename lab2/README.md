@@ -1,4 +1,10 @@
-# Lab 2 - Environment Setup
+# Lab 2: Geospatial AI for Flood Segmentation with Prithvi & JupyterLab
+
+This lab takes you beyond foundational geospatial processing into the world of artificial intelligence with real satellite data. You will gain hands-on experience using a modern geospatial foundation model (Prithvi-EO-1.0), running entirely on CPU, within a cloud-hosted JupyterLab compute instance on Azure. The workflow will guide you through finding, preparing, and analyzing Earth observation data and then applying advanced AI to perform flood segmentation. Along the way, you will interact directly with STAC APIs for data search, manipulate spatial imagery, and visualize results on an interactive map. By completing this lab, you will understand both the data pipeline and the AI inference steps that underpin state-of-the-art geospatial analysis, building skills that are directly applicable to cloud-native geospatial/AI solutions.
+
+---
+
+# Environment Setup
 
 ## Quick Start
 
