@@ -1,4 +1,4 @@
-name: geo-labs-azureml
+name: geo-labs-lab1
 channels:
   - conda-forge
 dependencies:
@@ -19,3 +19,4 @@ dependencies:
   - contextily
   - ipywidgets>=8.0.0
   - dask
+  - psutil=5.9.5
