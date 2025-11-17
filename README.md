@@ -28,7 +28,7 @@ Before you begin, please ensure you have the following:
 2.  An **Azure Machine Learning Workspace** created in your subscription.
 3.  A **Compute Instance** provisioned and **Running** inside your Azure ML workspace.
 
-> **Note:** For detailed, step-by-step instructions on setting up these prerequisites, please see the [**Vegetation Analysis Lab - Guide.docx**](./lab1/Lab 1 - Instructions.docx) file located in the `lab1` folder.
+> **Note:** For detailed, step-by-step instructions on setting up these prerequisites, please see the [**Vegetation Analysis Lab - Guide.docx**](./lab1/Lab%201%20-%20Instructions.docx) file located in the `lab1` folder.
 
 ---
 
