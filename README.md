@@ -7,7 +7,7 @@ Welcome! This repository contains all the materials, notebooks, and instructions
 ### [Lab 1: Vegetation Analysis](./lab1)
 * **Topic:** Calculating NDVI using Sentinel-2 imagery.
 * **Tools:** Azure ML, GeoPandas, Planetary Computer.
-* **Status:** ✅ Ready
+* **Status:** ✅ **Ready**
 
 ### [Lab 2: Geospatial AI for Flood Mapping](./lab2)
 * **Description:** Learn to use a quantized geospatial foundation model (Prithvi-EO-1.0) to perform flood segmentation. This lab runs entirely on a CPU using AI inference.
