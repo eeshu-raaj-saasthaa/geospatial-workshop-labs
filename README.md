@@ -47,5 +47,5 @@ You will run these commands in the Azure ML Terminal to download the lab files a
 Run the following command in the terminal. This will download the entire `geospatial-workshop-labs` folder (containing `lab1` and `lab2`) into your user directory.
 
 ```bash
-git clone [https://github.com/eeshu-raaj-saasthaa/geospatial-workshop-labs.git](https://github.com/eeshu-raaj-saasthaa/geospatial-workshop-labs.git)
+git clone https://github.com/eeshu-raaj-saasthaa/geospatial-workshop-labs.git
 ```
