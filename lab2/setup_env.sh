@@ -117,7 +117,7 @@ run_with_progress() {
 # CHECK: Is mamba/conda available?
 #########################################
 
-echo "[1/6] Checking conda/mamba installation..."
+echo "[1/7] Checking conda/mamba installation..."
 
 if command -v mamba &> /dev/null; then
     CONDA_CMD="mamba"
@@ -180,51 +180,56 @@ fi
 echo ""
 
 #########################################
-# 3) CREATE CONDA ENV
+# 3) CREATE CONDA ENV WITH GDAL
 #########################################
 
-echo "[4/7] Creating base environment..."
-run_with_progress "      → creating $ENV_NAME with Python 3.10..." \
-    $CONDA_CMD create -n "$ENV_NAME" python=3.10 -y
+echo "[4/7] Creating environment with geospatial packages..."
+
+# Install everything critical in one step to ensure compatibility
+run_with_progress "      → creating $ENV_NAME with Python 3.10 and geospatial stack..." \
+    $CONDA_CMD create -n "$ENV_NAME" \
+        python=3.10 \
+        numpy\
+        gdal \
+        rasterio \
+        geopandas \
+        shapely \
+        ipykernel \
+        pip \
+        libgdal \
+        proj \
+        geos \
+        jupyterlab-widgets \
+        -c conda-forge \
+        -y
+
 echo ""
 
 #########################################
-# 4) INSTALL CONDA PACKAGES
+# 4) INSTALL PIP PACKAGES
 #########################################
 
-echo "[5/7] Installing geospatial packages..."
+echo "[5/7] Installing Python packages..."
 
-# Get the environment path directly
+# Get the environment path
 ENV_PATH=$(conda env list | grep "^${ENV_NAME} " | awk '{print $NF}')
-
 if [ -z "$ENV_PATH" ]; then
     echo "      ✗ Environment path not found"
     exit 1
 fi
-
 echo "      → environment path: $ENV_PATH"
 
-# Install directly to the environment without activation
-run_with_progress "      → installing gdal, rasterio, geopandas..." \
-    $CONDA_CMD install -n "$ENV_NAME" gdal rasterio geopandas shapely ipykernel pip -y
-echo ""
-
-#########################################
-# 5) INSTALL PIP PACKAGES
-#########################################
-
-echo "[6/7] Installing Python packages..."
-
 # Use the environment's pip directly
-ENV_PATH=$(conda env list | grep "^${ENV_NAME} " | awk '{print $NF}')
 PIP_PATH="$ENV_PATH/bin/pip"
 
-# Right after creating the environment, before other packages
-run_with_progress "      → downgrading numpy for compatibility..." \
-    "$PIP_PATH" install "numpy<2" --force-reinstall
+# Set environment variables for this installation session
+export GDAL_DATA="$ENV_PATH/share/gdal"
+export PROJ_LIB="$ENV_PATH/share/proj"
+export LD_LIBRARY_PATH="$ENV_PATH/lib:${LD_LIBRARY_PATH:-}"
 
-# Batch 1: Core packages (without terratorch)
+# Batch 1: Core packages
 pip_packages=(
+    numpy
     "requests>=2.31"
     leafmap
     localtileserver
@@ -274,14 +279,19 @@ run_with_progress "      → installing terratorch..." \
 
 echo ""
 
+# Define Python path for the subprocess call
+PYTHON_PATH="$ENV_PATH/bin/python"
+
+# Force reinstall numpy<2 using the specific subprocess method
+run_with_progress "      → enforcing numpy<2 via subprocess..." \
+    "$PYTHON_PATH" -c "import subprocess, sys; subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'numpy<2', '--force-reinstall', '--no-deps'])"
+
 #########################################
-# 6) INSTALL JUPYTER KERNEL
+# 5) INSTALL JUPYTER KERNEL
 #########################################
 
-echo "[7/7] Configuring Jupyter kernel..."
+echo "[6/7] Configuring Jupyter kernel..."
 
-# Use the environment's python directly
-ENV_PATH=$(conda env list | grep "^${ENV_NAME} " | awk '{print $NF}')
 PYTHON_PATH="$ENV_PATH/bin/python"
 
 run_with_progress "      → registering kernel..." \
@@ -289,33 +299,44 @@ run_with_progress "      → registering kernel..." \
 echo ""
 
 #########################################
-# 8) TEST IMPORTS
+# 6) TEST IMPORTS
 #########################################
 
-echo "[8/8] Testing package imports..."
+echo "[7/7] Testing package imports..."
 
-# Test critical imports
+# Test critical imports with environment variables set
 TEST_SCRIPT="
 import sys
+import os
+
+# Ensure GDAL environment variables are set
+os.environ['GDAL_DATA'] = '$ENV_PATH/share/gdal'
+os.environ['PROJ_LIB'] = '$ENV_PATH/share/proj'
+os.environ['LD_LIBRARY_PATH'] = '$ENV_PATH/lib:' + os.environ.get('LD_LIBRARY_PATH', '')
+
 print('Testing imports...')
+print(f'GDAL_DATA: {os.environ.get(\"GDAL_DATA\")}')
+print(f'PROJ_LIB: {os.environ.get(\"PROJ_LIB\")}')
+print()
 
 try:
     from osgeo import gdal
-    print('  ✓ gdal')
+    print(f'  ✓ gdal (version: {gdal.__version__})')
+    print(f'    GDAL data path: {gdal.GetConfigOption(\"GDAL_DATA\")}')
 except ImportError as e:
     print(f'  ✗ gdal: {e}')
     sys.exit(1)
 
 try:
     import rasterio
-    print('  ✓ rasterio')
+    print(f'  ✓ rasterio (version: {rasterio.__version__})')
 except ImportError as e:
     print(f'  ✗ rasterio: {e}')
     sys.exit(1)
 
 try:
     import geopandas
-    print('  ✓ geopandas')
+    print(f'  ✓ geopandas (version: {geopandas.__version__})')
 except ImportError as e:
     print(f'  ✗ geopandas: {e}')
     sys.exit(1)
@@ -341,6 +362,7 @@ except ImportError as e:
     print(f'  ✗ terratorch: {e}')
     sys.exit(1)
 
+print()
 print('All critical packages imported successfully!')
 "
 
@@ -370,4 +392,6 @@ echo ""
 echo "To use in terminal:"
 echo "  conda activate $ENV_NAME"
 echo ""
-echo "Logs saved: $LOGFILE"
+echo "Note: GDAL environment variables are automatically"
+echo "      configured when you activate the environment."
+echo ""
