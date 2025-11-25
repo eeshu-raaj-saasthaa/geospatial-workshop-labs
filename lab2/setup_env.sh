@@ -199,7 +199,7 @@ run_with_progress "      → creating $ENV_NAME with Python 3.10 and geospatial 
         libgdal \
         proj \
         geos \
-        jupyterlab-widgets \
+        jupyterlab_widgets \
         -c conda-forge \
         -y
 
